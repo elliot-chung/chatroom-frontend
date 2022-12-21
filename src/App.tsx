@@ -7,6 +7,7 @@ const socket = new WebSocket('ws://localhost:3333')
 
 function App() {
   const [socketState, setSocketState] = useState("loading")
+  const [user, setUser] = useState<string>('')
   const [color, setColor] = useState("#000000")
 
   useEffect(() => {
@@ -30,9 +31,9 @@ function App() {
     <div className="flex flex-col h-screen bg-[#141430]">
       <h1 className="text-lg font-bold font-mono text-center text-white">Chatroom App</h1>
       {socketState === "ready" && (<>
-      <Canvas color={color} socket={socket} />
+      <Canvas user={user} color={color} socket={socket} />
       <ChatWindow socket={socket} />
-      <ChatInput color={color} setColor={setColor} socket={socket}/>
+      <ChatInput user={user} setUser={setUser} color={color} setColor={setColor} socket={socket}/>
       </>)}
 
 

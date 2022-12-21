@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { ServerMessage } from '../types'
+import ServerMessage from '../types/ServerMessage'
 
 type Props = {
     socket: WebSocket
@@ -15,7 +15,9 @@ const ChatWindow = (props: Props) => {
             console.log("Data received from server: ", event.data)
             const message: ServerMessage = JSON.parse(event.data)
 
-            if (message.Type === 'message') setMessages([...messages, { text: message.Text || "", user: message.User, color: message.Color }])
+            const colorString = "#" + message.Color.toString(16).padStart(6, "0").toUpperCase()
+
+            if (message.Type === 'message') setMessages([...messages, { text: message.Text || "", user: message.User, color: colorString }])
         })
     }, [messages, socket])
 

@@ -1,36 +1,22 @@
 import React, { useRef, useState } from 'react'
-import { SketchPicker } from 'react-color'
+import { SketchPicker, ColorResult } from 'react-color'
 
 type Props = {
   socket: WebSocket
   color: string
   setColor: (color: string) => void
-}
-
-type Color = {
-  hex: string
-  rgb: {
-    r: number
-    g: number
-    b: number
-    a: number
-  }
-  hsl: {
-    h: number
-    s: number
-    l: number
-    a: number
-  }
+  user: string
+  setUser: (user: string) => void
 }
 
 const ChatInput = (props: Props) => {
-  const { socket, color, setColor } = props
-
-  const [user, setUser] = useState<string>('')
+  const { socket, color, setColor, user, setUser } = props
   const [messageText, setMessageText] = useState<string>('')
   const [displayColorPicker, setDisplayColorPicker] = useState<boolean>(true)
 
   const inputRef = useRef<HTMLInputElement>(null)
+
+  const colorNum = parseInt(color.replace("#", ""), 16)
 
   const sendMessage = () => {
     if (messageText === '') {
@@ -40,7 +26,7 @@ const ChatInput = (props: Props) => {
       Type: 'message',
       User: user,
       Text: messageText,
-      Color: color,
+      Color: colorNum,
     }
 
     socket.send(JSON.stringify(message))
@@ -73,7 +59,7 @@ const ChatInput = (props: Props) => {
     setDisplayColorPicker(false)
   }
 
-  const handleColorChange = (color: Color) => {
+  const handleColorChange = (color: ColorResult) => {
     setColor(color.hex)
   }
   
