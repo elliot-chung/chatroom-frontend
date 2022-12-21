@@ -1,50 +1,48 @@
 import { useEffect, useState } from 'react'
-import ChatWindow from './components/chatwindow'
-import io from 'socket.io-client'
+import Canvas from './components/Canvas'
+import ChatInput from './components/ChatInput'
+import ChatWindow from './components/ChatWindow'
 
-const socket = io('http://localhost:3000')
+const socket = new WebSocket('ws://localhost:3333')
 
 function App() {
-
-  const message = {
-    text: 'Hello World',
-    user: 'John Doe'
-  }
-
-  const longMessage = {
-    text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultricies tincidunt, nunc nisl aliquam nisl, eget aliquam nunc nisl eu nunc. Donec auctor, nisl eget ultr',
-    user: 'John Doe'
-  }
-
-  const [isConnected, setIsConnected] = useState(socket.connected);
-  const [lastPong, setLastPong] = useState("");
+  const [socketState, setSocketState] = useState("loading")
+  const [color, setColor] = useState("#000000")
 
   useEffect(() => {
-    socket.on('connect', () => {
-      setIsConnected(true);
-    });
+    socket.onopen = () => {
+      console.log("Connected to server")
+      setSocketState("ready")
+    }
 
-    socket.on('disconnect', () => {
-      setIsConnected(false);
-    });
+    socket.onclose = () => {
+      console.log("Disconnected from server")
+      setSocketState("error")
+    }
 
-    socket.on('pong', () => setLastPong(new Date().toISOString()));
-
-    return () => {
-      socket.off('connect');
-      socket.off('disconnect');
-      socket.off('pong');
-    };
-  }, []);
-
-  const sendPing = () => {
-    socket.emit('ping');
-  }
+    socket.onerror = () => {
+      console.log("Error connecting to server")
+      setSocketState("error")
+    }
+  }, [])
 
   return (
-    <div className="App">
-      <h1 className="text-lg text-center">Chat App</h1>
-      <button className="bg-blue-500 hover:bg-blue-400 text-white font-bold py-2 px-4 border-b-4 border-blue-700 hover:border-blue-500 rounded" onClick={sendPing}>Send Ping</button>
+    <div className="flex flex-col h-screen bg-[#141430]">
+      <h1 className="text-lg font-bold font-mono text-center text-white">Chatroom App</h1>
+      {socketState === "ready" && (<>
+      <Canvas color={color} socket={socket} />
+      <ChatWindow socket={socket} />
+      <ChatInput color={color} setColor={setColor} socket={socket}/>
+      </>)}
+
+
+
+      {socketState === "loading" && (
+      <p className="text-center">Connecting...</p> 
+      )}
+      {socketState === "error" && (
+      <p className="text-center">Error connecting to server</p>
+      )}
     </div>
   )
 }
