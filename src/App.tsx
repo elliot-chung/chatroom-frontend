@@ -3,7 +3,9 @@ import Canvas from './components/Canvas'
 import ChatInput from './components/ChatInput'
 import ChatWindow from './components/ChatWindow'
 
-const socket = new WebSocket('ws://localhost:3333')
+const wsHost = import.meta.env.VITE_WS_ADDRESS
+
+const socket = new WebSocket(wsHost)
 
 function App() {
   const [socketState, setSocketState] = useState("loading")
