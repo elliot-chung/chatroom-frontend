@@ -9,18 +9,6 @@ type Props = {
   setUser: (user: string) => void
 }
 
-const invert = (color: string) => {
-  const hexStr = color.replace("#", "0x")
-  const hex = parseInt(hexStr)
-  const r = (hex >> 16) & 255
-  const g = (hex >> 8) & 255
-  const b = hex & 255
-
-  const lumosity = 0.2126 * r + 0.7152 * g + 0.0722 * b
-
-  return lumosity > 128 ? "#000000" : "#ffffff"
-}
-
 const ChatInput = (props: Props) => {
   const { socket, color, setColor, user, setUser } = props
   const [messageText, setMessageText] = useState<string>("")
