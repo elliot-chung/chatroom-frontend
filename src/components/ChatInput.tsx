@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react"
-import { SketchPicker, ColorResult } from "react-color"
+import React, { useMemo, useRef, useState } from "react"
+import { ChromePicker, ColorResult } from "react-color"
 
 type Props = {
   socket: WebSocket
@@ -9,12 +9,25 @@ type Props = {
   setUser: (user: string) => void
 }
 
+const invert = (color: string) => {
+  const hexStr = color.replace("#", "0x")
+  const hex = parseInt(hexStr)
+  const r = (hex >> 16) & 255
+  const g = (hex >> 8) & 255
+  const b = hex & 255
+
+  const lumosity = 0.2126 * r + 0.7152 * g + 0.0722 * b
+
+  return lumosity > 128 ? "#000000" : "#ffffff"
+}
+
 const ChatInput = (props: Props) => {
   const { socket, color, setColor, user, setUser } = props
   const [messageText, setMessageText] = useState<string>("")
   const [displayColorPicker, setDisplayColorPicker] = useState<boolean>(true)
 
   const inputRef = useRef<HTMLInputElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null)
 
   const colorNum = parseInt(color.replace("#", ""), 16)
 
@@ -41,11 +54,7 @@ const ChatInput = (props: Props) => {
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === "Enter") {
-      if (user === "") {
-        setName()
-      } else {
-        sendMessage()
-      }
+      buttonRef.current?.click()
     }
   }
 
@@ -63,17 +72,21 @@ const ChatInput = (props: Props) => {
     setColor(color.hex)
   }
 
+  // const invertedColor = useMemo(() => invert(color), [color])
+  const invertedColor = "#ffffff"
+
   return (
-    <div className="mx-3 mb-8 flex h-8 flex-row justify-center">
+    <div className="flex h-20 flex-row justify-center bg-[#0d0d1f] px-3 pt-4 pb-8">
       <div
-        className="relative mr-3 aspect-square h-full rounded-full"
-        style={{ backgroundColor: color }}
+        className="relative mr-3 aspect-square h-full rounded-full border-4"
+        style={{ backgroundColor: color, borderColor: invertedColor }}
       >
         {displayColorPicker && (
-          <SketchPicker
+          <ChromePicker
             className="absolute -top-80"
+            disableAlpha
             color={color}
-            onChange={handleColorChange}
+            onChangeComplete={handleColorChange}
           />
         )}
       </div>
@@ -88,6 +101,7 @@ const ChatInput = (props: Props) => {
       />
       <button
         onClick={user === "" ? setName : sendMessage}
+        ref={buttonRef}
         className="h-full rounded-lg bg-blue-700 px-4 py-2 text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Send
