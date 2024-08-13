@@ -16,17 +16,16 @@ const Canvas = (props: Props) => {
   useEffect(() => {
     socket.addEventListener("message", (event) => {
       const message: ServerMessage = JSON.parse(event.data)
+      if (message.Type !== "draw") return
 
-      if (message.Type === "draw") {
-        if (message.Canvas !== undefined) {
-          setPixelData(message.Canvas)
-        }
+      if (message.Canvas !== undefined) {
+        setPixelData(message.Canvas)
       }
     })
   }, [socket])
 
   return (
-    <div className="mx-auto flex h-1/2 w-full flex-col overflow-scroll border">
+    <div className="flex h-1/2 w-full flex-col overflow-y-scroll border">
       {[...Array(100)].map((_, index) => (
         <Row
           user={user}
@@ -51,7 +50,7 @@ type RowProps = {
 const Row = (props: RowProps) => {
   const { y, socket, brushColor, pixelData, user } = props
   return (
-    <div className="flex w-fit flex-row">
+    <div className="mx-auto flex w-fit flex-row">
       {[...Array(100)].map((_, index) => (
         <Cell
           user={user}
@@ -118,7 +117,7 @@ const Cell = (props: CellProps) => {
       onMouseOver={handleMouse}
       onMouseDown={handleClick}
       style={{ backgroundColor: color }}
-      className={"h-4 w-4 cursor-pointer hover:bg-slate-400"}
+      className={"h-2 w-2 cursor-pointer hover:bg-slate-400"}
     />
   )
 }
