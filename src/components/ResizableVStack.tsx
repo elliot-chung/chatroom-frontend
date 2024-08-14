@@ -24,6 +24,12 @@ const ResizableVStack = (props: Props) => {
     setResize(false)
   }
 
+  const handleMouseLeave = (
+    event: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
+    setResize(false)
+  }
+
   const handleMouseMove = (
     event: React.MouseEvent<HTMLDivElement, MouseEvent>,
   ) => {
@@ -51,6 +57,7 @@ const ResizableVStack = (props: Props) => {
       className="flex h-5/6 flex-col"
       onMouseUp={handleMouseUp}
       onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
       <div className="h-3/4" ref={box1ref}>
         {children[0]}
