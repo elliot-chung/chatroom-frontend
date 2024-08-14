@@ -44,10 +44,13 @@ const ChatWindow = (props: Props) => {
   }, [messages])
 
   return (
-    <div className="h-2/5 w-full overflow-y-auto shadow-inner" ref={scrollRef}>
+    <div
+      className="mx-auto h-2/5 w-11/12 overflow-y-auto overflow-x-hidden shadow-inner"
+      ref={scrollRef}
+    >
       {messages.map((message, index) => (
         <div
-          className="m-1 flex flex-row rounded-lg"
+          className="m-1 flex flex-row rounded-md"
           key={index}
           style={{ backgroundColor: message.color }}
         >
@@ -58,7 +61,7 @@ const ChatWindow = (props: Props) => {
             {message.user}
           </p>
           <p
-            className="w-5/6 p-2 pr-4"
+            className="text-balance w-3/4 break-words p-2 pr-8"
             style={{ color: invert(message.color) }}
           >
             {message.text}
