@@ -71,7 +71,7 @@ const ChatInput = (props: Props) => {
       >
         {displayColorPicker && (
           <ChromePicker
-            className="absolute -top-80"
+            className="absolute -top-60"
             disableAlpha
             color={color}
             onChangeComplete={handleColorChange}
