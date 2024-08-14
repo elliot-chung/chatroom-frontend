@@ -12,9 +12,9 @@ const invert = (color: string) => {
   const g = (hex >> 8) & 255
   const b = hex & 255
 
-  const lumosity = 0.2126 * r + 0.7152 * g + 0.0722 * b
+  const luminosity = 0.2126 * r + 0.7152 * g + 0.0722 * b
 
-  return lumosity > 128 ? "#000000" : "#ffffff"
+  return luminosity > 128 ? "#000000" : "#ffffff"
 }
 
 const ChatWindow = (props: Props) => {
