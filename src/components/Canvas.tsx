@@ -91,7 +91,7 @@ const Cell = (props: CellProps) => {
 
   const colorNum = parseInt(brushColor.replace("#", ""), 16)
 
-  const handleClick = useCallback(() => {
+  const handleMouseDown = useCallback(() => {
     if (!nameSet) return
     socket.send(
       JSON.stringify({
@@ -103,7 +103,7 @@ const Cell = (props: CellProps) => {
     )
   }, [x, y, colorNum, socket, nameSet])
 
-  const handleMouse = useCallback(() => {
+  const handleMouseOver = useCallback(() => {
     setColor(brushColor)
   }, [brushColor])
 
@@ -114,10 +114,12 @@ const Cell = (props: CellProps) => {
   return (
     <div
       onMouseLeave={handleMouseLeave}
-      onMouseOver={handleMouse}
-      onMouseDown={handleClick}
+      onMouseOver={handleMouseOver}
+      onMouseDown={handleMouseDown}
       style={{ backgroundColor: color }}
-      className={"h-2 w-2 cursor-pointer hover:bg-slate-400"}
+      className={
+        "h-3 w-3 cursor-pointer hover:bg-slate-400 md:h-2 md:w-2 lg:h-1 lg:w-1"
+      }
     />
   )
 }
