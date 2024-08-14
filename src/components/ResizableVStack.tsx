@@ -4,7 +4,7 @@ type Props = {
   children: React.ReactNode[]
 }
 
-const ResizeableVStack = (props: Props) => {
+const ResizableVStack = (props: Props) => {
   const { children } = props
 
   const box1ref = useRef<HTMLDivElement>(null)
@@ -58,7 +58,7 @@ const ResizeableVStack = (props: Props) => {
         {children[0]}
       </div>
       <hr
-        className="h-1 cursor-ns-resize bg-white hover:scale-150 hover:bg-[#6671a3]"
+        className="h-1 cursor-ns-resize bg-white hover:scale-150 hover:bg-cyan-400"
         onMouseDown={handleMouseDown}
       />
       <div className="h-1/4" ref={box2ref}>
@@ -68,4 +68,4 @@ const ResizeableVStack = (props: Props) => {
   )
 }
 
-export default ResizeableVStack
+export default ResizableVStack
