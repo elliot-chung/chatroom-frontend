@@ -84,7 +84,7 @@ const ChatInput = (props: Props) => {
         onKeyDown={handleKeyDown}
         onChange={inputHandler}
         className="mr-2 block h-full w-4/5 rounded-lg border border-gray-300 bg-gray-50 p-4 pl-4 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500"
-        placeholder="Message"
+        placeholder={user === "" ? "Name" : "Message"}
         required
       />
       <button

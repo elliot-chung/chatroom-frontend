@@ -45,7 +45,7 @@ const ChatWindow = (props: Props) => {
 
   return (
     <div
-      className="mx-auto h-2/5 w-11/12 overflow-y-auto overflow-x-hidden shadow-inner"
+      className="mx-auto w-11/12 resize-y overflow-y-auto overflow-x-hidden shadow-inner"
       ref={scrollRef}
     >
       {messages.map((message, index) => (
@@ -61,7 +61,7 @@ const ChatWindow = (props: Props) => {
             {message.user}
           </p>
           <p
-            className="text-balance w-3/4 break-words p-2 pr-8"
+            className="text-balance w-5/6 break-words p-2 pr-8"
             style={{ color: invert(message.color) }}
           >
             {message.text}

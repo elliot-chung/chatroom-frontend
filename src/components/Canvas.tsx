@@ -25,7 +25,7 @@ const Canvas = (props: Props) => {
   }, [socket])
 
   return (
-    <div className="flex h-1/2 w-full flex-col overflow-y-scroll border">
+    <div className="flex h-full w-full flex-col overflow-y-scroll border">
       {[...Array(100)].map((_, index) => (
         <Row
           user={user}
