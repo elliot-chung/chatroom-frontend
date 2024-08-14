@@ -40,11 +40,9 @@ const ResizableVStack = (props: Props) => {
     const box2Rect = box2.getBoundingClientRect()
 
     const box1newHeight = mousey - box1Rect.top
-    const box2newTop = mousey
     const box2newHeight = box2Rect.bottom - mousey
 
     box1.style.height = `${box1newHeight}px`
-    box2.style.top = `${box2newTop}px`
     box2.style.height = `${box2newHeight}px`
   }
 
