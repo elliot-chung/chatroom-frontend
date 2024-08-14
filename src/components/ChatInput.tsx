@@ -60,14 +60,11 @@ const ChatInput = (props: Props) => {
     setColor(color.hex)
   }
 
-  // const invertedColor = useMemo(() => invert(color), [color])
-  const invertedColor = "#ffffff"
-
   return (
     <div className="flex h-20 flex-row justify-center bg-[#0d0d1f] px-3 pt-4 pb-8">
       <div
-        className="relative mr-3 aspect-square h-full rounded-full border-4"
-        style={{ backgroundColor: color, borderColor: invertedColor }}
+        className="relative mr-3 aspect-square h-full rounded-full border-4 border-x-gray-100"
+        style={{ backgroundColor: color }}
       >
         {displayColorPicker && (
           <ChromePicker

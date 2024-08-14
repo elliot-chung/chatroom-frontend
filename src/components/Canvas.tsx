@@ -89,7 +89,7 @@ const Cell = (props: CellProps) => {
     setColor(serverColor)
   }, [serverColor])
 
-  const colorNum = parseInt(brushColor.replace("#", ""), 16)
+  const colorNum = parseInt(brushColor.replace("#", "0x"))
 
   const handleMouseDown = useCallback(() => {
     if (!nameSet) return
