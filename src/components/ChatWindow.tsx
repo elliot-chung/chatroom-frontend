@@ -45,7 +45,7 @@ const ChatWindow = (props: Props) => {
 
   return (
     <div
-      className="mx-auto w-11/12 resize-y overflow-y-auto overflow-x-hidden shadow-inner"
+      className="mx-auto h-full w-11/12 overflow-y-auto overflow-x-hidden shadow-inner"
       ref={scrollRef}
     >
       {messages.map((message, index) => (

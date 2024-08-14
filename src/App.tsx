@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import Canvas from "./components/Canvas"
 import ChatInput from "./components/ChatInput"
 import ChatWindow from "./components/ChatWindow"
+import ResizeableVStack from "./components/ResizeableVStack"
 
 const wsHost = "wss://chatroom-backend.fly.dev/chatroom"
 
@@ -36,8 +37,10 @@ function App() {
       </h1>
       {socketState === "ready" && (
         <>
-          <Canvas user={user} color={color} socket={socket} />
-          <ChatWindow socket={socket} />
+          <ResizeableVStack>
+            <Canvas user={user} color={color} socket={socket} />
+            <ChatWindow socket={socket} />
+          </ResizeableVStack>
           <ChatInput
             user={user}
             setUser={setUser}
